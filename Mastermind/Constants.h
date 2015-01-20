@@ -9,4 +9,4 @@ Fouad Al-Rijleh, Rachel Rudolph
 
 const int LENGTH = 4;
 const int MINNUMBER = 0;
-const int MAXNUMBER = 4;
+const int MAXNUMBER = 5;
