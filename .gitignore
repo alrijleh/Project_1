@@ -27,5 +27,30 @@
 *.out
 *.app
 
-# Temporary files
+# Visual Studio Files
+*.[Oo]bj
+*.user
+*.aps
+*.pch
+*.vspscc
+*.vssscc
+*.idb
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.tlog
+*.lib
+*.sbr
+*.sdf
 *.opensdf
+*.unsuccessfulbuild
+*.pdb
+*.suo
+*.sdf
