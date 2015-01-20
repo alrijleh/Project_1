@@ -49,13 +49,6 @@ int Response::getNumIncorrect()
 	return numIncorrect;
 }
 
-//Check if guess is correct
-bool Response::checkSolve()
-{
-	if (numCorrect == LENGTH) return true;
-	else return false;
-}
-
 //Check if number correct is equal to number incorrect
 bool Response::areEqual()
 {
