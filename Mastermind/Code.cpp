@@ -59,7 +59,7 @@ void Code::generateCode()
 	srand(time(NULL));
 	for (int i = 0; i < LENGTH; i++)
 	{
-		code[i] = rand() % MAXNUMBER;
+		code[i] = rand() % (MAXNUMBER + 1) + MINNUMBER;
 	}
 }
 

@@ -24,29 +24,35 @@ Mastermind::~Mastermind()
 //Reads user input from console and checks validity
 Code Mastermind::humanGuess()
 {
-	//Add checks for edge cases
-	char userInput[1024];
-	cout << "Enter 4 digits: ";
-
 	vector<int> userVector(4);
 	Code userCode;
-	int stringIndex = 0;
-	int temp;
+	string userInput;
+	int digit;
 
 	while (true)
 	{
-		temp = getchar() - '0';
-		if (temp >= MINNUMBER && temp < MAXNUMBER)
+		cout << "Enter 4 digits: ";
+		getline(cin, userInput);
+		for (int charIndex = 0; charIndex < userInput.size(); charIndex++)
 		{
-			userVector[stringIndex] = temp;
-			stringIndex++;
+			digit = userInput[charIndex] - '0';
+			if (digit >= MINNUMBER && digit <= MAXNUMBER)
+			{
+				userVector[charIndex] = digit;
+				if (charIndex + 1 == LENGTH)
+				{
+					userCode.setCode(userVector);
+					return userCode;
+				}
+			}
+			else
+			{
+				cout << "Error: Code must consist of numbers between " << MINNUMBER << " and " << MAXNUMBER << endl;
+				break;
+			}
 		}
-		if (stringIndex == LENGTH) break;
-
+		if (userInput.size() != LENGTH) cout << "Error: Code must be 4 characters long" << endl;
 	}
-
-	userCode.setCode(userVector);
-	return userCode;
 }
 
 //Gets response based on current guess
@@ -71,7 +77,6 @@ void Mastermind::playGame()
 	{
 		Code guess = humanGuess();
 		cout << "User Guess: ";
-		guess.printCode();
 		response = getResponse(guess, secretCode);
 		response.printResponse();
 		if ( response.checkSolve() )
