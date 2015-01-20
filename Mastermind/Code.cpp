@@ -82,14 +82,17 @@ int Code::checkCorrect(vector<int> guess)
 int Code::checkIncorrect(vector<int> guess)
 {
 	int numberIncorrect = 0;
+	vector<bool> usedGuess;
+	usedGuess = usedCode;
 
 	for (int guessIndex = 0; guessIndex < LENGTH; guessIndex++)
 	{
-		for (int codeIndex = 0; codeIndex < LENGTH; codeIndex++)
+		if (usedGuess[guessIndex] == true) continue;
+		for (int codeIndex = 0; codeIndex < LENGTH; codeIndex++) //Prevents using a guess digit that is already correct
 		{
-			if (guess[guessIndex] == code[codeIndex] && usedCode[codeIndex] == false && codeIndex != guessIndex)
+			if (guess[guessIndex] == code[codeIndex] && codeIndex != guessIndex && usedCode[codeIndex] == false)
 			{
-				usedCode[codeIndex] = true; //Prevents recording the same digit twice
+				usedCode[codeIndex] = true; //Prevents using the same code digit twice
 				numberIncorrect++;
 				break;
 			}

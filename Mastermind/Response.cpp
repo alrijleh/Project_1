@@ -55,7 +55,7 @@ bool Response::areEqual()
 	if (numCorrect == numIncorrect) return true;
 }
 
-//Prints response
+//Prints response in format (correct, incorrect)
 void Response::printResponse()
 {
 	cout << "Response: (" << numCorrect << ", " << numIncorrect << ")" << endl;

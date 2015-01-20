@@ -31,7 +31,7 @@ Code Mastermind::humanGuess()
 
 	while (true)
 	{
-		cout << "Enter 4 digits: ";
+		cout << endl << "Enter 4 digits: ";
 		getline(cin, userInput);
 		for (int charIndex = 0; charIndex < userInput.size(); charIndex++)
 		{
@@ -83,8 +83,6 @@ void Mastermind::playGame()
 	while (true)
 	{
 		Code guess = humanGuess();
-		cout << "User Guess: ";
-		guess.printCode();
 		response = getResponse(guess, secretCode);
 		response.printResponse();
 		if ( checkSolve(response) )
