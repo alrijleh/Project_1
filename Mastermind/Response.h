@@ -28,7 +28,6 @@ public:
 	int getNumCorrect();
 	int getNumIncorrect();
 	
-	bool checkSolve();
 	bool areEqual();
 
 	void printResponse();
