@@ -39,7 +39,7 @@ Code Mastermind::humanGuess()
 			if (digit >= MINNUMBER && digit <= MAXNUMBER)
 			{
 				userVector[charIndex] = digit;
-				if (charIndex + 1 == LENGTH)
+				if (charIndex + 1 == LENGTH && userInput.size() == LENGTH)
 				{
 					userCode.setCode(userVector);
 					return userCode;
