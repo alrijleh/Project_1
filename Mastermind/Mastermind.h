@@ -19,12 +19,15 @@ class Mastermind
 private:
 	Code userCode;
 	Code secretCode;
+	Response response;
 public:
 	Mastermind();
 	~Mastermind();
 
 	Code humanGuess();
 	Response getResponse(Code userCode, Code secretCode);
+	
+	bool checkSolve(Response response);
 	void playGame();
 
 	void printCode();
