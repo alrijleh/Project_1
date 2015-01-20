@@ -96,7 +96,7 @@ int Code::checkIncorrect(vector<int> guess)
 		}
 	}
 	vector<bool> falseVector(4, false);
-	setUsedCode(falseVector);
+	setUsedCode(falseVector); //Resets the vector the counts what digits have been used
 	return numberIncorrect;
 }
 

@@ -1,13 +1,10 @@
-﻿Build started 1/19/2015 5:22:36 PM.
+﻿Build started 1/19/2015 10:36:03 PM.
      1>Project "C:\Users\Fouad\Google Drive\Class\Algorithms\Projects\1a\Mastermind\Mastermind.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Code.cpp Main.cpp Mastermind.cpp Response.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Mastermind.cpp Response.cpp
          Response.cpp
          Mastermind.cpp
      1>c:\users\fouad\google drive\class\algorithms\projects\1a\mastermind\mastermind.cpp(28): warning C4101: 'userInput' : unreferenced local variable
-         Main.cpp
-         Code.cpp
-     1>c:\users\fouad\google drive\class\algorithms\projects\1a\mastermind\code.cpp(51): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
          Generating Code...
      1>c:\users\fouad\google drive\class\algorithms\projects\1a\mastermind\response.cpp(63): warning C4715: 'Response::areEqual' : not all control paths return a value
        Link:
@@ -20,4 +17,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.79
+Time Elapsed 00:00:01.17

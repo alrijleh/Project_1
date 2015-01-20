@@ -65,5 +65,5 @@ bool Response::areEqual()
 //Prints response
 void Response::printResponse()
 {
-	cout << "(" << numCorrect << ", " << numIncorrect << ")" << endl;
+	cout << "Response: (" << numCorrect << ", " << numIncorrect << ")" << endl;
 }

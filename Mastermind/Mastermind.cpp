@@ -62,19 +62,21 @@ Response Mastermind::getResponse(Code userCode, Code secretCode)
 //Implements the game 
 void Mastermind::playGame()
 {
-	secretCode.generateCode();
-	printCode();
 	Response response;
+	secretCode.generateCode();
+	cout << "Secret Code: ";
+	printCode();
 
 	while (true)
 	{
 		Code guess = humanGuess();
+		cout << "User Guess: ";
 		guess.printCode();
 		response = getResponse(guess, secretCode);
 		response.printResponse();
 		if ( response.checkSolve() )
 		{
-			cout << "correct" << endl;
+			cout << "Correct!" << endl;
 			break;
 		}
 	}
