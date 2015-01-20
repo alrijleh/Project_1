@@ -38,9 +38,9 @@ Code Mastermind::humanGuess()
 			digit = userInput[charIndex] - '0';
 			if (digit >= MINNUMBER && digit <= MAXNUMBER)
 			{
-				userVector[charIndex] = digit;
 				if (charIndex + 1 == LENGTH && userInput.size() == LENGTH)
 				{
+					userVector[charIndex] = digit;
 					userCode.setCode(userVector);
 					return userCode;
 				}
