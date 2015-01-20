@@ -65,6 +65,13 @@ Response Mastermind::getResponse(Code userCode, Code secretCode)
 	return response;
 }
 
+//Check if guess is correct
+bool Mastermind::checkSolve(Response response)
+{
+	if (response.getNumCorrect() == LENGTH) return true;
+	else return false;
+}
+
 //Implements the game 
 void Mastermind::playGame()
 {
@@ -77,9 +84,10 @@ void Mastermind::playGame()
 	{
 		Code guess = humanGuess();
 		cout << "User Guess: ";
+		guess.printCode();
 		response = getResponse(guess, secretCode);
 		response.printResponse();
-		if ( response.checkSolve() )
+		if ( checkSolve(response) )
 		{
 			cout << "Correct!" << endl;
 			break;
