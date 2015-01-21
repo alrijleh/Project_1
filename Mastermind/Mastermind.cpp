@@ -38,7 +38,7 @@ Code Mastermind::humanGuess()
 			cout << "Error: Code must be 4 characters long" << endl;
 			continue;
 		}
-	
+
 		for (int charIndex = 0; charIndex < userInput.size(); charIndex++)
 		{
 			digit = userInput[charIndex] - '0';
@@ -83,9 +83,8 @@ void Mastermind::playGame()
 {
 	Response response;
 	secretCode.generateCode();
-	cout << "Secret Code has been generated.";
-	//Hide secret code from user 
-	//printCode();
+	cout << "Secret Code is: ";
+	printCode();
 
 	while (true)
 	{
@@ -94,9 +93,7 @@ void Mastermind::playGame()
 		response.printResponse();
 		if (checkSolve(response))
 		{
-			cout << endl << "Correct! The secret code is ";
-			printCode();
-			cout << endl;
+			cout << endl << "Correct!" << endl;
 			break;
 		}
 	}
