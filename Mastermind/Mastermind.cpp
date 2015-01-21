@@ -33,14 +33,21 @@ Code Mastermind::humanGuess()
 	{
 		cout << endl << "Enter 4 digits: ";
 		getline(cin, userInput);
+
+		if (userInput.size() != LENGTH){
+			cout << "Error: Code must be 4 characters long" << endl;
+			continue;
+		}
+	
 		for (int charIndex = 0; charIndex < userInput.size(); charIndex++)
 		{
 			digit = userInput[charIndex] - '0';
 			if (digit >= MINNUMBER && digit <= MAXNUMBER)
 			{
+				userVector[charIndex] = digit;
+
 				if (charIndex + 1 == LENGTH && userInput.size() == LENGTH)
 				{
-					userVector[charIndex] = digit;
 					userCode.setCode(userVector);
 					return userCode;
 				}
@@ -51,7 +58,6 @@ Code Mastermind::humanGuess()
 				break;
 			}
 		}
-		if (userInput.size() != LENGTH) cout << "Error: Code must be 4 characters long" << endl;
 	}
 }
 
@@ -60,8 +66,8 @@ Response Mastermind::getResponse(Code userCode, Code secretCode)
 {
 	Response response;
 	vector<int> userVector = userCode.getCode();
-	response.setNumCorrect( secretCode.checkCorrect(userVector) );
-	response.setNumIncorrect( secretCode.checkIncorrect(userVector) );
+	response.setNumCorrect(secretCode.checkCorrect(userVector));
+	response.setNumIncorrect(secretCode.checkIncorrect(userVector));
 	return response;
 }
 
@@ -77,17 +83,20 @@ void Mastermind::playGame()
 {
 	Response response;
 	secretCode.generateCode();
-	cout << "Secret Code: ";
-	printCode();
+	cout << "Secret Code has been generated.";
+	//Hide secret code from user 
+	//printCode();
 
 	while (true)
 	{
 		Code guess = humanGuess();
 		response = getResponse(guess, secretCode);
 		response.printResponse();
-		if ( checkSolve(response) )
+		if (checkSolve(response))
 		{
-			cout << "Correct!" << endl;
+			cout << endl << "Correct! The secret code is ";
+			printCode();
+			cout << endl;
 			break;
 		}
 	}
