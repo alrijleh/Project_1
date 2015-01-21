@@ -24,6 +24,12 @@ public:
 	Mastermind();
 	~Mastermind();
 
+	void setUserCode(Code newUserCode);
+	Code getUserCode();
+
+	void setSecretCode(Code newSecretCode);
+	Code getSecretCode();
+
 	Code humanGuess();
 	Response getResponse(Code userCode, Code secretCode);
 	
