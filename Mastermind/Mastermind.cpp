@@ -13,13 +13,50 @@ using namespace std;
 Mastermind::Mastermind()
 {
 	Code secretCode;
-	Code humanGuess;
+	Code humanGuess; 
+	
+	Mastermind::setUserCode(userCode);
+	Mastermind::setSecretCode(secretCode);
 }
 
 //Default destructor
 Mastermind::~Mastermind()
 {
 }
+
+//Sets the userCode
+void Mastermind::setUserCode(Code newUserCode)
+{
+	if (newUserCode.getCode() != userCode.getCode())
+	{
+		userCode = newUserCode;
+	}
+	else "Input must be a CODE object of size LENGTH.";
+}
+
+//Sets the secretCode
+void Mastermind::setSecretCode(Code newSecretCode)
+{
+	if (newSecretCode.getCode() != secretCode.getCode())
+	{
+		secretCode = newSecretCode;
+	}
+	else "Input must be a CODE object of size LENGTH.";
+}
+
+//Gets the userCode
+Code Mastermind::getUserCode()
+{
+	return userCode;
+}
+
+//Gets the userCode
+Code Mastermind::getSecretCode()
+{
+	return secretCode;
+}
+
+
 
 //Reads user input from console and checks validity
 Code Mastermind::humanGuess()
