@@ -112,3 +112,25 @@ void Code::printCode()
 	}
 	cout << endl;
 }
+
+//Increments the code
+void Code::increment()
+{
+	int index = code.size() - 1;
+
+	code[index]++;
+	while (code[index] > MAXNUMBER) //Roll over single digit
+	{
+		code[index] = 0;
+		if (index > 0) //Roll over non-most signficant digit
+		{
+			code[index - 1]++;
+		}
+		else //Roll over most significant bit
+		{
+			code.resize(4, 0);
+			break;
+		}
+		index--;
+	}
+}

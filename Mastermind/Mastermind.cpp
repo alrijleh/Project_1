@@ -120,8 +120,7 @@ void Mastermind::playGame()
 {
 	Response response;
 	secretCode.generateCode();
-	cout << "Secret Code is: ";
-	printCode();
+	cout << "Secret Code is: " << secretCode;
 
 	while (true)
 	{

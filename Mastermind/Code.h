@@ -25,6 +25,8 @@ public:
 	Code();
 	~Code();
 
+	friend ostream &operator<<(ostream &ostream, const Code &code);
+
 	void setCode(vector<int> newCode);
 	vector<int> getCode();
 	void setUsedCode(vector<bool> newCode);
@@ -34,4 +36,6 @@ public:
 	int checkCorrect(vector<int> guess);
 	int checkIncorrect(vector<int> guess);
 	void printCode();
+
+	void increment();
 };
