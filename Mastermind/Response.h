@@ -25,10 +25,15 @@ public:
 	void setNumCorrect(int newNumCorrect);
 	void setNumIncorrect(int newNumIncorrect);
 
-	int getNumCorrect();
-	int getNumIncorrect();
+	int getNumCorrect() const;
+	int getNumIncorrect() const;
 	
 	bool areEqual();
 
 	void printResponse();
+
+	friend ostream &operator<<(ostream &ostr, const Response &response);
+	friend bool operator==(const Response &response, const Response &newResponse);
+	Response &Response::operator=(const Response &response);
+
 };
