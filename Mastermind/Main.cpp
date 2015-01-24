@@ -8,15 +8,27 @@ Fouad Al-Rijleh, Rachel Rudolph
 
 #include "Main.h"
 
-
-ostream &operator<<(ostream &ostream, const Code &code)
-{
-	for (int index = 0; index < code.code.size(); index++)
-	{
-		ostream << code.code[index];
-	}
+//Overload output operator
+ostream &operator<<(ostream &ostream, const Response &newResponse){
+	ostream << "(" << newResponse.getNumCorrect() << ", " << newResponse.getNumIncorrect() << ")";
+	
 	return ostream;
 }
+
+//Overload assign operator
+bool operator==(const Response &response, const Response &newResponse){
+	return newResponse.getNumCorrect() == response.getNumCorrect() 
+		&& newResponse.getNumIncorrect() == response.getNumIncorrect();
+
+}
+
+Response &Response::operator=(const Response &response){
+	numCorrect = response.getNumCorrect();
+	numIncorrect = response.getNumIncorrect();
+	return *this;
+}
+
+
 
 //Main
 void main()
@@ -25,3 +37,4 @@ void main()
 	masterMind.playGame();
 	system("pause");
 }
+
