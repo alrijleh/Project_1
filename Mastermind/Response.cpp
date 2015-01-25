@@ -38,13 +38,13 @@ void Response::setNumIncorrect(int newNumIncorrect)
 }
 
 //Gets the number correct
-int Response::getNumCorrect()
+int Response::getNumCorrect() const
 {
 	return numCorrect;
 }
 
 //Gets the number incorrect
-int Response::getNumIncorrect()
+int Response::getNumIncorrect() const
 {
 	return numIncorrect;
 }
@@ -53,6 +53,7 @@ int Response::getNumIncorrect()
 bool Response::areEqual()
 {
 	if (numCorrect == numIncorrect) return true;
+	else return false;
 }
 
 //Prints response in format (correct, incorrect)

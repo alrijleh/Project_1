@@ -56,8 +56,6 @@ Code Mastermind::getSecretCode()
 	return secretCode;
 }
 
-
-
 //Reads user input from console and checks validity
 Code Mastermind::humanGuess()
 {
@@ -126,7 +124,7 @@ void Mastermind::playGame()
 	{
 		Code guess = humanGuess();
 		response = getResponse(guess, secretCode);
-		response.printResponse();
+		cout << response << endl;
 		if (checkSolve(response))
 		{
 			cout << endl << "Correct!" << endl;
