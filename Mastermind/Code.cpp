@@ -28,11 +28,15 @@ void Code::setCode(vector<int> newCode)
 	{
 		code = newCode;
 	}
-	else "Input must be a vector of size LENGTH.";
+	else
+	{
+		cerr << "Input must be a vector of size LENGTH";
+		throw "input error";
+	}
 }
 
 //Gets the code
-vector<int> Code::getCode()
+vector<int> Code::getCode() const
 {
 	return code;
 }
@@ -85,6 +89,12 @@ int Code::checkIncorrect(vector<int> guess)
 	vector<bool> usedGuess;
 	usedGuess = usedCode;
 
+	if (guess.size() != LENGTH)
+		{
+			cerr << "Input must be a vector of size LENGTH";
+			throw "input error";
+		}
+
 	for (int guessIndex = 0; guessIndex < LENGTH; guessIndex++)
 	{
 		if (usedGuess[guessIndex] == true) continue;
@@ -104,7 +114,7 @@ int Code::checkIncorrect(vector<int> guess)
 }
 
 //Prints the code
-void Code::printCode()
+void Code::printCode() const
 {
 	for (int i = 0; i < LENGTH; i++)
 	{

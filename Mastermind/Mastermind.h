@@ -25,16 +25,16 @@ public:
 	~Mastermind();
 
 	void setUserCode(Code newUserCode);
-	Code getUserCode();
+	Code getUserCode() const;
 
 	void setSecretCode(Code newSecretCode);
-	Code getSecretCode();
+	Code getSecretCode() const;
 
 	Code humanGuess();
-	Response getResponse(Code userCode, Code secretCode);
+	Response getResponse(Code userCode, Code secretCode) const;
 	
-	bool checkSolve(Response response);
+	bool checkSolve(Response response) const;
 	void playGame();
 
-	void printCode();
+	void printCode() const;
 };

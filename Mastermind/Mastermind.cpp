@@ -45,13 +45,13 @@ void Mastermind::setSecretCode(Code newSecretCode)
 }
 
 //Gets the userCode
-Code Mastermind::getUserCode()
+Code Mastermind::getUserCode() const
 {
 	return userCode;
 }
 
 //Gets the userCode
-Code Mastermind::getSecretCode()
+Code Mastermind::getSecretCode() const
 {
 	return secretCode;
 }
@@ -97,7 +97,7 @@ Code Mastermind::humanGuess()
 }
 
 //Gets response based on current guess
-Response Mastermind::getResponse(Code userCode, Code secretCode)
+Response Mastermind::getResponse(Code userCode, Code secretCode) const
 {
 	Response response;
 	vector<int> userVector = userCode.getCode();
@@ -107,7 +107,7 @@ Response Mastermind::getResponse(Code userCode, Code secretCode)
 }
 
 //Check if guess is correct
-bool Mastermind::checkSolve(Response response)
+bool Mastermind::checkSolve(Response response) const
 {
 	if (response.getNumCorrect() == LENGTH) return true;
 	else return false;
@@ -134,7 +134,7 @@ void Mastermind::playGame()
 }
 
 //Prints secret code
-void Mastermind::printCode()
+void Mastermind::printCode() const
 {
 	vector<int> codeVector = secretCode.getCode();
 	for (int i = 0; i < LENGTH; i++)

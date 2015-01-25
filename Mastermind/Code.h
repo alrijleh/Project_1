@@ -28,14 +28,14 @@ public:
 	friend ostream &operator<<(ostream &ostream, const Code &code);
 
 	void setCode(vector<int> newCode);
-	vector<int> getCode();
+	vector<int> getCode() const;
 	void setUsedCode(vector<bool> newCode);
 	vector<bool> getUsedCode();
 
 	void generateCode();
 	int checkCorrect(vector<int> guess);
 	int checkIncorrect(vector<int> guess);
-	void printCode();
+	void printCode() const;
 
 	void increment();
 };

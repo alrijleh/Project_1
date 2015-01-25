@@ -25,7 +25,11 @@ void Response::setNumCorrect(int newNumCorrect)
 	if (newNumCorrect <= LENGTH && newNumCorrect >= 0){
 		numCorrect = newNumCorrect;
 	}
-	else cout << "Input must be integer less than LENGTH.";
+	else
+	{
+		cerr << "Input must be integer less than LENGTH.";
+		throw "input error";
+	}
 }
 
 //Sets the number incorrect
@@ -34,7 +38,11 @@ void Response::setNumIncorrect(int newNumIncorrect)
 	if (newNumIncorrect <= LENGTH && newNumIncorrect >= 0){
 		numIncorrect = newNumIncorrect;
 	}
-	else cout << "Input must be integer less than LENGTH.";
+	else
+	{
+		cerr << "Input must be integer less than LENGTH.";
+		throw "input error";
+	}
 }
 
 //Gets the number correct
