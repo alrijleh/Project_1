@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Code.cpp" />
+    <ClCompile Include="Container.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mastermind.cpp" />
     <ClCompile Include="Response.cpp" />
@@ -86,6 +87,7 @@
   <ItemGroup>
     <ClInclude Include="Code.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Container.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Mastermind.h" />
     <ClInclude Include="Response.h" />
