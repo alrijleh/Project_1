@@ -28,7 +28,7 @@ public:
 	int getNumCorrect() const;
 	int getNumIncorrect() const;
 	
-	bool areEqual();
+	bool isEqual(Response externalResponse);
 
 	void printResponse();
 

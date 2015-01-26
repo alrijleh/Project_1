@@ -13,9 +13,9 @@ using namespace std;
 Mastermind::Mastermind()
 {
 	Code secretCode;
-	Code humanGuess; 
-	
-	Mastermind::setUserCode(userCode);
+	Code humanGuess;
+
+	Mastermind::setUserCode(guessCode);
 	Mastermind::setSecretCode(secretCode);
 }
 
@@ -24,12 +24,12 @@ Mastermind::~Mastermind()
 {
 }
 
-//Sets the userCode
+//Sets the guessCode
 void Mastermind::setUserCode(Code newUserCode)
 {
-	if (newUserCode.getCode() != userCode.getCode())
+	if (newUserCode.getCode() != guessCode.getCode())
 	{
-		userCode = newUserCode;
+		guessCode = newUserCode;
 	}
 	else "Input must be a CODE object of size LENGTH.";
 }
@@ -44,13 +44,13 @@ void Mastermind::setSecretCode(Code newSecretCode)
 	else "Input must be a CODE object of size LENGTH.";
 }
 
-//Gets the userCode
+//Gets the guessCode
 Code Mastermind::getUserCode() const
 {
-	return userCode;
+	return guessCode;
 }
 
-//Gets the userCode
+//Gets the guessCode
 Code Mastermind::getSecretCode() const
 {
 	return secretCode;
@@ -60,7 +60,7 @@ Code Mastermind::getSecretCode() const
 Code Mastermind::humanGuess()
 {
 	vector<int> userVector(4);
-	Code userCode;
+	Code guessCode;
 	string userInput;
 	int digit;
 
@@ -83,8 +83,8 @@ Code Mastermind::humanGuess()
 
 				if (charIndex + 1 == LENGTH && userInput.size() == LENGTH)
 				{
-					userCode.setCode(userVector);
-					return userCode;
+					guessCode.setCode(userVector);
+					return guessCode;
 				}
 			}
 			else
@@ -96,11 +96,21 @@ Code Mastermind::humanGuess()
 	}
 }
 
+//Generates the guess for the computer based on past responses
+Code Mastermind::agentGuess()
+{
+	if (history.size() == 0)
+	{
+		guessCode.generateCode();
+		return guessCode;
+	}
+}
+
 //Gets response based on current guess
-Response Mastermind::getResponse(Code userCode, Code secretCode) const
+Response Mastermind::generateResponse(Code guessCode, Code secretCode) const
 {
 	Response response;
-	vector<int> userVector = userCode.getCode();
+	vector<int> userVector = guessCode.getCode();
 	response.setNumCorrect(secretCode.checkCorrect(userVector));
 	response.setNumIncorrect(secretCode.checkIncorrect(userVector));
 	return response;
@@ -113,23 +123,62 @@ bool Mastermind::checkSolve(Response response) const
 	else return false;
 }
 
-//Implements the game 
+//Returns true if guess response is consistent with previous responses
+bool Mastermind::consistentWithPreviousGuesses(Code currentGuess) const
+{
+	int numCorrect, numIncorrect;
+	Response theoreticalResponse, pastResponse;
+	Code pastGuess;
+
+	for (int round = 0; round < history.size(); round++)
+	{
+		pastGuess = history[round].getGuessCode();
+		pastResponse = history[round].getResponse();
+		numCorrect = pastGuess.checkCorrect(currentGuess.getCode());
+		numIncorrect = pastGuess.checkIncorrect(currentGuess.getCode());
+		theoreticalResponse = generateResponse(currentGuess, pastGuess);
+
+		if (!theoreticalResponse.isEqual(pastResponse)) return false;
+	}
+	return true;
+}
+
+//Implements the game with the user guessing
 void Mastermind::playGame()
 {
-	Response response;
 	secretCode.generateCode();
 	cout << "Secret Code is: " << secretCode;
 
 	while (true)
 	{
 		Code guess = humanGuess();
-		response = getResponse(guess, secretCode);
+		response = generateResponse(guess, secretCode);
 		cout << response << endl;
 		if (checkSolve(response))
 		{
 			cout << endl << "Correct!" << endl;
 			break;
 		}
+	}
+}
+
+//Implements the game with the computer guessing
+void Mastermind::playGame2()
+{
+	//secretCode.generateCode();
+	cout << "Enter secret code" << endl;
+	secretCode = humanGuess();
+
+
+	while (true)
+	{
+		guessCode = agentGuess();
+		response = generateResponse(guessCode, secretCode);
+		Container container(guessCode, response);
+		history.push_back(container);
+
+		system("pause");
+
 	}
 }
 

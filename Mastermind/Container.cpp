@@ -1,19 +1,24 @@
 #include "Container.h"
 
-//Class Constructor
+//Empty Class Constructor
 Container::Container()
 {
+	Code secretCode;
+	Code guessCode;
+	Response response;
+}
+
+Container::Container(Code newGuessCode, Response newResponse)
+{
+	Code guessCode;
+	setGuessCode(newGuessCode);
+	Response response;
+	setResponse(newResponse);
 }
 
 //Default destructor
 Container::~Container()
 {
-}
-
-
-Code Container::getSecretCode() const
-{
-	return secretCode;
 }
 
 Code Container::getGuessCode() const
@@ -24,11 +29,6 @@ Code Container::getGuessCode() const
 Response  Container::getResponse() const
 {
 	return response;
-}
-
-void  Container::setSecretCode(Code newSecretCode)
-{
-	secretCode = newSecretCode;
 }
 
 void  Container::setGuessCode(Code newGuessCode)
