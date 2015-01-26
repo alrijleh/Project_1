@@ -99,11 +99,45 @@ Code Mastermind::humanGuess()
 //Generates the guess for the computer based on past responses
 Code Mastermind::agentGuess()
 {
-	if (history.size() == 0)
+	if (history.size() == 0) //No history to base guess off of
 	{
 		guessCode.generateCode();
 		return guessCode;
 	}
+
+	vector<Response> allResponses(15);
+	Response possibleResponse;
+	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
+	{
+		for (int numCorrect = 0; numCorrect <= LENGTH; numCorrect++)
+		{
+			for (int numIncorrect = 0; numIncorrect <= LENGTH - numCorrect; numIncorrect++)
+			{
+				possibleResponse.setNumCorrect(numCorrect);
+				possibleResponse.setNumIncorrect(numIncorrect);
+				allResponses[responseIndex] = possibleResponse;
+			}
+		}
+	}
+
+	vector<int> scores(15);
+	Code guess;
+	vector<int> zero(LENGTH);
+	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
+	{
+		while (true)
+		{
+			if (consistentWithPreviousGuesses(guess))
+			{
+				scores[responseIndex]++;
+			}
+			guess.increment();
+
+			if (guess.getCode() == zero) break;
+		}
+	}
+	
+
 }
 
 //Gets response based on current guess
