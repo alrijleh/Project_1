@@ -39,11 +39,26 @@ ostream &operator<<(ostream &ostream, const Code &code)
 	return ostream;
 }
 
+//Overload output operator for Mastermind to print secretCode
+ostream &operator<<(ostream &ostream, const Mastermind &mastermind)
+{
+	ostream << mastermind.getSecretCode();
+	return ostream;
+}
+
+//Overload output operator for Container class
+ostream &operator<<(ostream &ostream, const Container container)
+{
+	ostream << "Guess Code:" << container.getGuessCode() << endl;
+	ostream << "Response: " << container.getResponse() << endl;
+	return ostream;
+}
+
 //Main
 void main()
 {
 	Mastermind masterMind;
-	masterMind.playGame();
+	masterMind.playGame2();
 	system("pause");
 }
 
