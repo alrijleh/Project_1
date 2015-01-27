@@ -6,6 +6,7 @@ Fouad Al-Rijleh, Rachel Rudolph
 */
 
 #include "Code.h"
+#include "d_except.h"
 
 //Constructor that initializes vectors
 Code::Code()
@@ -24,15 +25,8 @@ Code::~Code()
 //Sets the code
 void Code::setCode(vector<int> newCode)
 {
-	if (newCode.size() == LENGTH)
-	{
-		code = newCode;
-	}
-	else
-	{
-		cerr << "Input must be a vector of size LENGTH";
-		throw "input error";
-	}
+	if (newCode.size() == LENGTH) code = newCode;
+	else throw rangeError("vector must be of length " + to_string(LENGTH));
 }
 
 //Gets the code
@@ -44,11 +38,8 @@ vector<int> Code::getCode() const
 //Sets the used code vector
 void Code::setUsedCode(vector<bool> newCode)
 {
-	if (newCode.size() == LENGTH)
-	{
-		usedCode = newCode;
-	}
-	else "Input must be a vector of size LENGTH.";
+	if (newCode.size() == LENGTH) usedCode = newCode;
+	else throw rangeError( "vector must be of length " + to_string(LENGTH) );
 }
 
 //Gets the used code vector
@@ -143,4 +134,14 @@ void Code::increment()
 		}
 		index--;
 	}
+}
+
+//Overload output operator for Code
+ostream &operator<<(ostream &ostream, const Code &code)
+{
+	for (int index = 0; index < code.code.size(); index++)
+	{
+		ostream << code.code[index];
+	}
+	return ostream;
 }

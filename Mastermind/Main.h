@@ -10,6 +10,7 @@ Fouad Al-Rijleh, Rachel Rudolph
 #include "Response.h"
 #include "Container.h"
 #include "Mastermind.h"
+#include "d_except.h"
 #include <iostream>
 
 using namespace std;

@@ -8,6 +8,8 @@ Fouad Al-Rijleh, Rachel Rudolph
 #pragma once
 
 #include "Constants.h"
+#include "d_except.h"
+#include <string>
 #include <iostream>
 
 using namespace std;

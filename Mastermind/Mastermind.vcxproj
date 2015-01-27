@@ -88,6 +88,7 @@
     <ClInclude Include="Code.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Container.h" />
+    <ClInclude Include="d_except.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Mastermind.h" />
     <ClInclude Include="Response.h" />

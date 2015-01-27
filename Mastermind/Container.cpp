@@ -40,3 +40,11 @@ void  Container::setResponse(Response newResponse)
 {
 	response = newResponse;
 }
+
+//Overload output operator for Container class
+ostream &operator<<(ostream &ostream, const Container container)
+{
+	ostream << "Guess Code:" << container.getGuessCode() << endl;
+	ostream << "Response: " << container.getResponse() << endl;
+	return ostream;
+}

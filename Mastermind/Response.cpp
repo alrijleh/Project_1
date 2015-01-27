@@ -22,27 +22,15 @@ Response::~Response()
 //Sets the number correct
 void Response::setNumCorrect(int newNumCorrect)
 {
-	if (newNumCorrect <= LENGTH && newNumCorrect >= 0){
-		numCorrect = newNumCorrect;
-	}
-	else
-	{
-		cerr << "Input must be integer less than LENGTH.";
-		throw "input error";
-	}
+	if (newNumCorrect <= LENGTH && newNumCorrect >= 0) numCorrect = newNumCorrect;
+	else throw rangeError("numCorrect must be between 0 and " + to_string(LENGTH));
 }
 
 //Sets the number incorrect
 void Response::setNumIncorrect(int newNumIncorrect)
 {
-	if (newNumIncorrect <= LENGTH && newNumIncorrect >= 0){
-		numIncorrect = newNumIncorrect;
-	}
-	else
-	{
-		cerr << "Input must be integer less than LENGTH.";
-		throw "input error";
-	}
+	if (newNumIncorrect <= LENGTH && newNumIncorrect >= 0) numIncorrect = newNumIncorrect;
+	else throw rangeError("numInCorrect must be between 0 and " + to_string(LENGTH));
 }
 
 //Gets the number correct
@@ -68,4 +56,25 @@ bool Response::isEqual(Response externalResponse)
 void Response::printResponse()
 {
 	cout << "Response: (" << numCorrect << ", " << numIncorrect << ")" << endl;
+}
+
+//Overload output operator for Response
+ostream &operator<<(ostream &ostream, const Response &newResponse){
+	ostream << "(" << newResponse.getNumCorrect() << ", " << newResponse.getNumIncorrect() << ")";
+
+	return ostream;
+}
+
+//Overload equality operator for Response
+bool operator==(const Response &response, const Response &newResponse){
+	return newResponse.getNumCorrect() == response.getNumCorrect()
+		&& newResponse.getNumIncorrect() == response.getNumIncorrect();
+
+}
+
+//Overload assign operator for Response
+Response &Response::operator=(const Response &response){
+	numCorrect = response.getNumCorrect();
+	numIncorrect = response.getNumIncorrect();
+	return *this;
 }

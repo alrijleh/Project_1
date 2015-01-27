@@ -27,21 +27,13 @@ Mastermind::~Mastermind()
 //Sets the guessCode
 void Mastermind::setUserCode(Code newUserCode)
 {
-	if (newUserCode.getCode() != guessCode.getCode())
-	{
-		guessCode = newUserCode;
-	}
-	else "Input must be a CODE object of size LENGTH.";
+	guessCode = newUserCode;
 }
 
 //Sets the secretCode
 void Mastermind::setSecretCode(Code newSecretCode)
 {
-	if (newSecretCode.getCode() != secretCode.getCode())
-	{
-		secretCode = newSecretCode;
-	}
-	else "Input must be a CODE object of size LENGTH.";
+	secretCode = newSecretCode;
 }
 
 //Gets the guessCode
@@ -203,6 +195,8 @@ void Mastermind::playGame2()
 	cout << "Enter secret code" << endl;
 	secretCode = humanGuess();
 
+	vector<int> vec(5);
+	secretCode.setCode(vec);
 
 	while (true)
 	{
@@ -225,4 +219,11 @@ void Mastermind::printCode() const
 		cout << codeVector[i];
 	}
 	cout << endl;
+}
+
+//Overload output operator for Mastermind to print secretCode
+ostream &operator<<(ostream &ostream, const Mastermind &mastermind)
+{
+	ostream << mastermind.getSecretCode();
+	return ostream;
 }
