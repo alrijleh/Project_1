@@ -12,6 +12,7 @@ Fouad Al-Rijleh, Rachel Rudolph
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 

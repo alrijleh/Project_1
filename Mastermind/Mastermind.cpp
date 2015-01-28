@@ -108,21 +108,65 @@ Code Mastermind::agentGuess()
 		return guessCode;
 	}
 
+	int score;
 	vector<int> zeroVector(LENGTH);
+	vector<Code> possibleGuessVector;
 	Code possibleGuess;
+	possibleGuessVector.reserve( pow(MAXNUMBER,LENGTH) ); //Reserves a vector big enough fror every combination
 	possibleGuess.setCode(zeroVector);
 
-
-
-	//Iterates over all possible guesses
+	//Calculates scores for all possibe guesses
 	while (true)
 	{
+		//if (consistentWithPreviousGuesses(possibleGuess))
+		if (true);
+		{
+			score = calculateScore(possibleGuess);
+			possibleGuess.setScore(score);
+			possibleGuessVector.push_back(possibleGuess);
+		}
 
-		possibleGuess.increment();
+		possibleGuess++;
+		if (possibleGuess.getCode() == zeroVector) break;
 	}
+
+	int minIndex = 0;
+	int minScore = pow(MAXNUMBER, LENGTH);
+	for (int index = 0; index < possibleGuessVector.size(); index++)
+	{
+		score = possibleGuessVector[index].getScore();
+		if (score < minScore) minIndex = index;
+	}
+	
+	return possibleGuessVector[minIndex];
 }
 
-//Gets response based on current guess
+int Mastermind::calculateScore(Code guess) const
+{
+	int score = 0;
+	Response theoreticalResponse;
+	Code nextGuess;
+	vector<int> zeroVector(LENGTH);
+	nextGuess.setCode(zeroVector);
+
+	//Loop through all possbile responses
+	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
+	{
+		while (true)
+		{
+			if (consistentWithPreviousGuesses(nextGuess))
+			{
+				score++;
+			}
+			nextGuess++;
+			if (nextGuess.getCode() == zeroVector) break;
+		}
+	}
+
+	return score;
+}
+
+//Generates a response between two guesses
 Response Mastermind::generateResponse(Code guessCode, Code secretCode) const
 {
 	Response response;
@@ -189,9 +233,6 @@ void Mastermind::playGame2()
 		response = generateResponse(guessCode, secretCode);
 		Container container(guessCode, response);
 		history.push_back(container);
-
-		system("pause");
-
 	}
 }
 

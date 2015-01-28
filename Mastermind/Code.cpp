@@ -11,6 +11,7 @@ Fouad Al-Rijleh, Rachel Rudolph
 //Constructor that initializes vectors
 Code::Code()
 {
+	score = 0;
 	vector<int> codeVector(LENGTH);
 	setCode(codeVector);
 	vector<bool> usedCode(LENGTH, false);
@@ -43,9 +44,21 @@ void Code::setUsedCode(vector<bool> newCode)
 }
 
 //Gets the used code vector
-vector<bool> Code::getUsedCode()
+vector<bool> Code::getUsedCode() const
 {
 	return usedCode;
+}
+
+//Sets the score
+void Code::setScore(int newScore)
+{
+	score = newScore;
+}
+
+//Gets the score
+int Code::getScore() const
+{
+	return score;
 }
 
 //Generates the code randomly using the time as a seed
@@ -142,4 +155,10 @@ ostream &operator<<(ostream &ostream, const Code &code)
 		ostream << code.code[index];
 	}
 	return ostream;
+}
+
+//Overload ++ operator for Code
+void operator++(Code code)
+{
+	code.increment();
 }
