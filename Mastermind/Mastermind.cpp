@@ -97,6 +97,7 @@ Code Mastermind::agentGuess()
 		return guessCode;
 	}
 
+	//Generate vector of possible responses
 	vector<Response> allResponses(15);
 	Response possibleResponse;
 	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
@@ -111,6 +112,7 @@ Code Mastermind::agentGuess()
 			}
 		}
 	}
+
 
 	vector<int> scores(15);
 	Code guess;
@@ -152,19 +154,18 @@ bool Mastermind::checkSolve(Response response) const
 //Returns true if guess response is consistent with previous responses
 bool Mastermind::consistentWithPreviousGuesses(Code currentGuess) const
 {
-	int numCorrect, numIncorrect;
 	Response theoreticalResponse, pastResponse;
 	Code pastGuess;
+	
+	if (history.size() == 0) return true;
 
 	for (int round = 0; round < history.size(); round++)
 	{
 		pastGuess = history[round].getGuessCode();
 		pastResponse = history[round].getResponse();
-		numCorrect = pastGuess.checkCorrect(currentGuess.getCode());
-		numIncorrect = pastGuess.checkIncorrect(currentGuess.getCode());
 		theoreticalResponse = generateResponse(currentGuess, pastGuess);
 
-		if (!theoreticalResponse.isEqual(pastResponse)) return false;
+		if (theoreticalResponse != pastResponse) return false;
 	}
 	return true;
 }
@@ -191,12 +192,8 @@ void Mastermind::playGame()
 //Implements the game with the computer guessing
 void Mastermind::playGame2()
 {
-	//secretCode.generateCode();
 	cout << "Enter secret code" << endl;
 	secretCode = humanGuess();
-
-	vector<int> vec(5);
-	secretCode.setCode(vec);
 
 	while (true)
 	{

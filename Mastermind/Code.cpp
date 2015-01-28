@@ -61,6 +61,8 @@ void Code::generateCode()
 //Counts the number of corrects digits in the correct location
 int Code::checkCorrect(vector<int> guess)
 {
+	if (guess.size() != LENGTH)	throw rangeError("vector must be of length " + to_string(LENGTH));
+
 	int countCorrect = 0;
 	for (int codeIndex = 0; codeIndex < LENGTH; codeIndex++)
 	{
@@ -80,11 +82,7 @@ int Code::checkIncorrect(vector<int> guess)
 	vector<bool> usedGuess;
 	usedGuess = usedCode;
 
-	if (guess.size() != LENGTH)
-		{
-			cerr << "Input must be a vector of size LENGTH";
-			throw "input error";
-		}
+	if (guess.size() != LENGTH)	throw rangeError("vector must be of length " + to_string(LENGTH));
 
 	for (int guessIndex = 0; guessIndex < LENGTH; guessIndex++)
 	{

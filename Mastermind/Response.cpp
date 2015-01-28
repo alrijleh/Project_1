@@ -46,10 +46,10 @@ int Response::getNumIncorrect() const
 }
 
 //Check if number correct is equal to number incorrect
-bool Response::isEqual(Response externalResponse)
+bool Response::isEqual(Response externalResponse) const
 {
-	if (externalResponse.getNumCorrect() == numCorrect && externalResponse.getNumIncorrect() == numIncorrect) return true;
-	else return false;
+	return (externalResponse.getNumCorrect() == numCorrect
+		&& externalResponse.getNumIncorrect() == numIncorrect);
 }
 
 //Prints response in format (correct, incorrect)
@@ -61,15 +61,17 @@ void Response::printResponse()
 //Overload output operator for Response
 ostream &operator<<(ostream &ostream, const Response &newResponse){
 	ostream << "(" << newResponse.getNumCorrect() << ", " << newResponse.getNumIncorrect() << ")";
-
 	return ostream;
 }
 
 //Overload equality operator for Response
 bool operator==(const Response &response, const Response &newResponse){
-	return newResponse.getNumCorrect() == response.getNumCorrect()
-		&& newResponse.getNumIncorrect() == response.getNumIncorrect();
+	return response.isEqual(newResponse);
+}
 
+//Overload inequality operator for Response
+bool operator!=(const Response &response, const Response &newResponse){
+	return !response.isEqual(newResponse);
 }
 
 //Overload assign operator for Response

@@ -1,3 +1,10 @@
+/*
+Container.h
+This class holds a guess and its matching response
+
+Fouad Al-Rijleh, Rachel Rudolph
+*/
+
 #pragma once
 
 #include "Code.h"

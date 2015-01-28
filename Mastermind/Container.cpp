@@ -1,3 +1,9 @@
+/*
+Container.cpp
+This class holds a guess and its matching response
+
+Fouad Al-Rijleh, Rachel Rudolph
+*/
 #include "Container.h"
 
 //Empty Class Constructor

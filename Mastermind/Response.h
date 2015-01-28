@@ -30,12 +30,13 @@ public:
 	int getNumCorrect() const;
 	int getNumIncorrect() const;
 	
-	bool isEqual(Response externalResponse);
+	bool isEqual(Response externalResponse) const;
 
 	void printResponse();
 
 	friend ostream &operator<<(ostream &ostr, const Response &response);
 	friend bool operator==(const Response &response, const Response &newResponse);
+	friend bool operator!=(const Response &response, const Response &newResponse);
 	Response &Response::operator=(const Response &response);
 
 };
