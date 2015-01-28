@@ -12,11 +12,22 @@ using namespace std;
 //Constructor that initializes variables
 Mastermind::Mastermind()
 {
-	Code secretCode;
-	Code humanGuess;
-
 	Mastermind::setUserCode(guessCode);
 	Mastermind::setSecretCode(secretCode);
+
+	//Generate vector of possible responses
+	Response possibleResponse;
+	allResponses.reserve(LENGTH*(LENGTH + 1) / 2); //Total possibilities is the LENGTH triangular number
+
+	for (int numCorrect = 0; numCorrect <= LENGTH; numCorrect++)
+	{
+		for (int numIncorrect = 0; numIncorrect <= (LENGTH - numCorrect); numIncorrect++)
+		{
+			possibleResponse.setNumCorrect(numCorrect);
+			possibleResponse.setNumIncorrect(numIncorrect);
+			allResponses.push_back(possibleResponse);
+		}
+	}
 }
 
 //Default destructor
@@ -97,41 +108,18 @@ Code Mastermind::agentGuess()
 		return guessCode;
 	}
 
-	//Generate vector of possible responses
-	vector<Response> allResponses(15);
-	Response possibleResponse;
-	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
+	vector<int> zeroVector(LENGTH);
+	Code possibleGuess;
+	possibleGuess.setCode(zeroVector);
+
+
+
+	//Iterates over all possible guesses
+	while (true)
 	{
-		for (int numCorrect = 0; numCorrect <= LENGTH; numCorrect++)
-		{
-			for (int numIncorrect = 0; numIncorrect <= LENGTH - numCorrect; numIncorrect++)
-			{
-				possibleResponse.setNumCorrect(numCorrect);
-				possibleResponse.setNumIncorrect(numIncorrect);
-				allResponses[responseIndex] = possibleResponse;
-			}
-		}
+
+		possibleGuess.increment();
 	}
-
-
-	vector<int> scores(15);
-	Code guess;
-	vector<int> zero(LENGTH);
-	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
-	{
-		while (true)
-		{
-			if (consistentWithPreviousGuesses(guess))
-			{
-				scores[responseIndex]++;
-			}
-			guess.increment();
-
-			if (guess.getCode() == zero) break;
-		}
-	}
-	
-
 }
 
 //Gets response based on current guess
