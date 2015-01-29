@@ -12,11 +12,31 @@ using namespace std;
 //Constructor that initializes variables
 Mastermind::Mastermind()
 {
-	Code secretCode;
-	Code humanGuess;
-
 	Mastermind::setUserCode(guessCode);
 	Mastermind::setSecretCode(secretCode);
+
+	//Generate vector of possible responses
+	Response possibleResponse;
+	allResponses.reserve(LENGTH*(LENGTH + 1) / 2); //Total possibilities is the LENGTH triangular number
+	for (int numCorrect = 0; numCorrect <= LENGTH; numCorrect++)
+	{
+		for (int numIncorrect = 0; numIncorrect <= (LENGTH - numCorrect); numIncorrect++)
+		{
+			possibleResponse.setNumCorrect(numCorrect);
+			possibleResponse.setNumIncorrect(numIncorrect);
+			allResponses.push_back(possibleResponse);
+		}
+	}
+
+	//Generate vector of all possible guesses
+	possibleGuessVector.reserve(pow(MAXNUMBER, LENGTH)); //Reserves a vector big enough fror every combination
+	Code possibleGuess;
+	while (true)
+	{
+		possibleGuessVector.push_back(possibleGuess);
+		possibleGuess.increment();
+		if (possibleGuess.isZero()) break;
+	}
 }
 
 //Default destructor
@@ -97,44 +117,70 @@ Code Mastermind::agentGuess()
 		return guessCode;
 	}
 
-	//Generate vector of possible responses
-	vector<Response> allResponses(15);
-	Response possibleResponse;
-	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
+	int score;
+
+	for (int guessIndex = 0; guessIndex < possibleGuessVector.size(); guessIndex++)
 	{
-		for (int numCorrect = 0; numCorrect <= LENGTH; numCorrect++)
-		{
-			for (int numIncorrect = 0; numIncorrect <= LENGTH - numCorrect; numIncorrect++)
-			{
-				possibleResponse.setNumCorrect(numCorrect);
-				possibleResponse.setNumIncorrect(numIncorrect);
-				allResponses[responseIndex] = possibleResponse;
-			}
-		}
+		//Removes inconsistent guesses from the pool of possible guesses
+		if ( !consistentWithPreviousGuesses( possibleGuessVector[guessIndex] ) )
+			possibleGuessVector.erase( possibleGuessVector.begin() + guessIndex );
+		
 	}
 
+	/*  OLD CODE -- THIS WILL BE REPLACED BY THE CODE BLOCK ABOVE
+	while (true)
+	{
+		if ( consistentWithPreviousGuesses(possibleGuess) )
+		{
+			score = calculateScore(possibleGuess);
+			possibleGuess.setScore(score);
+			possibleGuessVector.push_back(possibleGuess);
+		}
 
-	vector<int> scores(15);
-	Code guess;
-	vector<int> zero(LENGTH);
+		if (possibleGuess.getCode() == zeroVector) break;
+	}
+	*/
+	int minIndex = 0;
+	int minScore = guessCode.getScore();
+	for (int index = 0; index < possibleGuessVector.size(); index++)
+	{
+		score = possibleGuessVector[index].getScore();
+		if (score < minScore)
+		{
+			minIndex = index;
+			score++;
+		}
+	}
+	
+	return possibleGuessVector[minIndex];
+}
+
+int Mastermind::calculateScore(Code guess) const
+{
+	int score = 0;
+	Response theoreticalResponse;
+	Code nextGuess;
+	vector<int> zeroVector(LENGTH);
+	nextGuess.setCode(zeroVector);
+
+	//Loop through all possbile responses
 	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
 	{
 		while (true)
 		{
-			if (consistentWithPreviousGuesses(guess))
+			if (consistentWithPreviousGuesses(nextGuess))
 			{
-				scores[responseIndex]++;
+				score++;
 			}
-			guess.increment();
-
-			if (guess.getCode() == zero) break;
+			nextGuess++;
+			if (nextGuess.getCode() == zeroVector) break;
 		}
 	}
-	
 
+	return score;
 }
 
-//Gets response based on current guess
+//Generates a response between two guesses
 Response Mastermind::generateResponse(Code guessCode, Code secretCode) const
 {
 	Response response;
@@ -201,9 +247,19 @@ void Mastermind::playGame2()
 		response = generateResponse(guessCode, secretCode);
 		Container container(guessCode, response);
 		history.push_back(container);
+		
+		cout << "Guess: ";
+		guessCode.printCode();
+		//cout << "Response: "; 
+		response.printResponse();
 
-		system("pause");
-
+		//Check for winning condition
+		if (checkSolve(response))
+		{
+			cout << "Guess is correct!" << endl;
+			cout << "Solved secret code in " << history.size() << " turns." << endl;
+			break;
+		}
 	}
 }
 
