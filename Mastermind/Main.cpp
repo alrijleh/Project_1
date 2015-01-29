@@ -11,15 +11,17 @@ Fouad Al-Rijleh, Rachel Rudolph
 //Main
 void main()
 {
-	try
+	//try
 	{
 		Mastermind masterMind;
 		masterMind.playGame2();
 	}
+	/*
 	catch (rangeError &ex)
 	{
 		cerr << "rangeError: " << ex.what() << endl;
 	}
+	*/
 	system("pause");
 }
 

@@ -12,6 +12,7 @@ Fouad Al-Rijleh, Rachel Rudolph
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -22,6 +23,7 @@ private:
 	Code secretCode;
 	Response response;
 	vector<Container> history;
+	vector<Response> allResponses;
 public:
 	Mastermind();
 	~Mastermind();
@@ -32,11 +34,12 @@ public:
 	void setSecretCode(Code newSecretCode);
 	Code getSecretCode() const;
 
-	Response generateResponse(Code guessCode, Code secretCode) const;
+	Response generateResponse(Code &guessCode, Code &secretCode) const;
 	Code humanGuess();
 	Code agentGuess();
 	
-	bool consistentWithPreviousGuesses(Code currentGuess) const;
+	int calculateScore(Code &guess);
+	bool consistentWithPreviousGuesses(Code &currentGuess) const;
 	bool checkSolve(Response response) const;
 	void playGame();
 	void playGame2();

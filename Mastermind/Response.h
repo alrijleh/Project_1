@@ -30,7 +30,7 @@ public:
 	int getNumCorrect() const;
 	int getNumIncorrect() const;
 	
-	bool isEqual(Response externalResponse) const;
+	bool isEqual(const Response &externalResponse) const;
 
 	void printResponse();
 

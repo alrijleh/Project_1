@@ -18,6 +18,7 @@ using namespace std;
 class Code
 {
 private:
+	int score;
 	vector<int> code;
 	vector<bool> usedCode; //This array records if a digit in the code have been used in the check functions
 
@@ -25,17 +26,20 @@ public:
 	Code();
 	~Code();
 
-	friend ostream &operator<<(ostream &ostream, const Code &code);
-
-	void setCode(vector<int> newCode);
+	void setCode(vector<int> &newCode);
 	vector<int> getCode() const;
-	void setUsedCode(vector<bool> newCode);
-	vector<bool> getUsedCode();
+	void setUsedCode(vector<bool> &newCode);
+	vector<bool> getUsedCode() const;
+	void setScore(int newScore);
+	int getScore() const;
 
 	void generateCode();
-	int checkCorrect(vector<int> guess);
-	int checkIncorrect(vector<int> guess);
+	int checkCorrect(const vector<int> &guess);
+	int checkIncorrect(const vector<int> &guess);
 	void printCode() const;
-
 	void increment();
+	bool isZero() const;
+
+	friend ostream &operator<<(ostream &ostream, const Code &code);
+	friend void operator++(Code code);
 };

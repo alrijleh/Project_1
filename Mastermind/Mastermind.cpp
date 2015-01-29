@@ -12,11 +12,21 @@ using namespace std;
 //Constructor that initializes variables
 Mastermind::Mastermind()
 {
-	Code secretCode;
-	Code humanGuess;
-
 	Mastermind::setUserCode(guessCode);
 	Mastermind::setSecretCode(secretCode);
+
+	//Generate vector of possible responses
+	Response possibleResponse;
+	allResponses.reserve(LENGTH*(LENGTH + 1) / 2); //Total possibilities is the LENGTH triangular number
+	for (int numCorrect = 0; numCorrect <= LENGTH; numCorrect++)
+	{
+		for (int numIncorrect = 0; numIncorrect <= (LENGTH - numCorrect); numIncorrect++)
+		{
+			possibleResponse.setNumCorrect(numCorrect);
+			possibleResponse.setNumIncorrect(numIncorrect);
+			allResponses.push_back(possibleResponse);
+		}
+	}
 }
 
 //Default destructor
@@ -97,45 +107,65 @@ Code Mastermind::agentGuess()
 		return guessCode;
 	}
 
-	//Generate vector of possible responses
-	vector<Response> allResponses(15);
-	Response possibleResponse;
-	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
+	int score = 0, lowestScore = 0;
+	Code possibleGuess, lowestScoreGuess;
+
+	while (true)
 	{
-		for (int numCorrect = 0; numCorrect <= LENGTH; numCorrect++)
+		//calculate score if consistent 
+		if (consistentWithPreviousGuesses(possibleGuess))
 		{
-			for (int numIncorrect = 0; numIncorrect <= LENGTH - numCorrect; numIncorrect++)
+			score = calculateScore(possibleGuess);
+			//if lowest score, save guess
+			if (score < lowestScore && lowestScore != 0 && score != 0)
 			{
-				possibleResponse.setNumCorrect(numCorrect);
-				possibleResponse.setNumIncorrect(numIncorrect);
-				allResponses[responseIndex] = possibleResponse;
+				lowestScore = score;
+				lowestScoreGuess.setCode(possibleGuess.getCode());
 			}
 		}
+
+		//if lowest score, save guess
+		if (score < lowestScore && lowestScore != 0 && score != 0)
+		{
+			lowestScore = score;
+			lowestScoreGuess.setCode(possibleGuess.getCode());
+		}
+
+		//Increment through all possible codes
+		possibleGuess.increment();
+		if ( possibleGuess.isZero() ) break;
 	}
 
+	return lowestScoreGuess;
+}
 
-	vector<int> scores(15);
-	Code guess;
-	vector<int> zero(LENGTH);
+int Mastermind::calculateScore(Code &guess)
+{
+	Code possibleNextGuess;
+	int score = 0;
+
+	cout << "calculateScore()" << endl;
+
 	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
 	{
 		while (true)
 		{
-			if (consistentWithPreviousGuesses(guess))
+			if (consistentWithPreviousGuesses(possibleNextGuess))
 			{
-				scores[responseIndex]++;
+				score++;
 			}
-			guess.increment();
 
-			if (guess.getCode() == zero) break;
+			//Loop through all possible guesses
+			possibleNextGuess.increment();
+			if (possibleNextGuess.isZero()) break;
 		}
 	}
-	
 
+	return score;
 }
 
-//Gets response based on current guess
-Response Mastermind::generateResponse(Code guessCode, Code secretCode) const
+//Generates a response between two guesses
+Response Mastermind::generateResponse(Code &guessCode, Code &secretCode) const
 {
 	Response response;
 	vector<int> userVector = guessCode.getCode();
@@ -152,13 +182,13 @@ bool Mastermind::checkSolve(Response response) const
 }
 
 //Returns true if guess response is consistent with previous responses
-bool Mastermind::consistentWithPreviousGuesses(Code currentGuess) const
+bool Mastermind::consistentWithPreviousGuesses(Code &currentGuess) const
 {
 	Response theoreticalResponse, pastResponse;
 	Code pastGuess;
 	
 	if (history.size() == 0) return true;
-
+	
 	for (int round = 0; round < history.size(); round++)
 	{
 		pastGuess = history[round].getGuessCode();
@@ -197,13 +227,22 @@ void Mastermind::playGame2()
 
 	while (true)
 	{
+
 		guessCode = agentGuess();
 		response = generateResponse(guessCode, secretCode);
 		Container container(guessCode, response);
 		history.push_back(container);
+		
+		cout << guessCode << endl;
+		cout << response << endl;
 
-		system("pause");
-
+		//Check for winning condition
+		if (checkSolve(response))
+		{
+			cout << "correct" << endl;
+			cout << "solved in " << history.size() << " turns" << endl;
+			break;
+		}
 	}
 }
 

@@ -11,6 +11,7 @@ Fouad Al-Rijleh, Rachel Rudolph
 //Constructor that initializes vectors
 Code::Code()
 {
+	score = 0;
 	vector<int> codeVector(LENGTH);
 	setCode(codeVector);
 	vector<bool> usedCode(LENGTH, false);
@@ -23,7 +24,7 @@ Code::~Code()
 }
 
 //Sets the code
-void Code::setCode(vector<int> newCode)
+void Code::setCode(vector<int> &newCode)
 {
 	if (newCode.size() == LENGTH) code = newCode;
 	else throw rangeError("vector must be of length " + to_string(LENGTH));
@@ -36,16 +37,28 @@ vector<int> Code::getCode() const
 }
 
 //Sets the used code vector
-void Code::setUsedCode(vector<bool> newCode)
+void Code::setUsedCode(vector<bool> &newCode)
 {
 	if (newCode.size() == LENGTH) usedCode = newCode;
 	else throw rangeError( "vector must be of length " + to_string(LENGTH) );
 }
 
 //Gets the used code vector
-vector<bool> Code::getUsedCode()
+vector<bool> Code::getUsedCode() const
 {
 	return usedCode;
+}
+
+//Sets the score
+void Code::setScore(int newScore)
+{
+	score = newScore;
+}
+
+//Gets the score
+int Code::getScore() const
+{
+	return score;
 }
 
 //Generates the code randomly using the time as a seed
@@ -59,7 +72,7 @@ void Code::generateCode()
 }
 
 //Counts the number of corrects digits in the correct location
-int Code::checkCorrect(vector<int> guess)
+int Code::checkCorrect(const vector<int> &guess)
 {
 	if (guess.size() != LENGTH)	throw rangeError("vector must be of length " + to_string(LENGTH));
 
@@ -76,7 +89,7 @@ int Code::checkCorrect(vector<int> guess)
 }
 
 //Counts the number of corrects digits in the incorrect location
-int Code::checkIncorrect(vector<int> guess)
+int Code::checkIncorrect(const vector<int> &guess)
 {
 	int numberIncorrect = 0;
 	vector<bool> usedGuess;
@@ -134,6 +147,15 @@ void Code::increment()
 	}
 }
 
+bool Code::isZero() const
+{
+	for (int index = 0; index < code.size(); index++)
+	{
+		if (code[index] != 0) return false;
+	}
+	return true;
+}
+
 //Overload output operator for Code
 ostream &operator<<(ostream &ostream, const Code &code)
 {
@@ -142,4 +164,10 @@ ostream &operator<<(ostream &ostream, const Code &code)
 		ostream << code.code[index];
 	}
 	return ostream;
+}
+
+//Overload ++ operator for Code
+void operator++(Code code)
+{
+	code.increment();
 }
