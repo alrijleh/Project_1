@@ -72,7 +72,7 @@ void Code::generateCode()
 }
 
 //Counts the number of corrects digits in the correct location
-int Code::checkCorrect(vector<int> guess)
+int Code::checkCorrect(const vector<int> &guess)
 {
 	if (guess.size() != LENGTH)	throw rangeError("vector must be of length " + to_string(LENGTH));
 

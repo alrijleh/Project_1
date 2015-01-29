@@ -35,7 +35,7 @@ public:
 
 
 	void generateCode();
-	int checkCorrect(vector<int> guess);
+	int checkCorrect(const vector<int> &guess);
 	int checkIncorrect(vector<int> guess);
 	void printCode() const;
 	void increment();

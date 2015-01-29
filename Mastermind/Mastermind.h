@@ -35,12 +35,12 @@ public:
 	void setSecretCode(Code newSecretCode);
 	Code getSecretCode() const;
 
-	Response generateResponse(Code guessCode, Code secretCode) const;
+	Response generateResponse(Code &guessCode, Code &secretCode) const;
 	Code humanGuess();
 	Code agentGuess();
 	
-	int calculateScore(Code guess) const;
-	bool consistentWithPreviousGuesses(Code currentGuess) const;
+	int calculateScore(Code &guess);
+	bool consistentWithPreviousGuesses(Code &currentGuess) const;
 	bool checkSolve(Response response) const;
 	void playGame();
 	void playGame2();

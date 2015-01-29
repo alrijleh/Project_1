@@ -124,22 +124,10 @@ Code Mastermind::agentGuess()
 		//Removes inconsistent guesses from the pool of possible guesses
 		if ( !consistentWithPreviousGuesses( possibleGuessVector[guessIndex] ) )
 			possibleGuessVector.erase( possibleGuessVector.begin() + guessIndex );
-		
+		score = calculateScore(possibleGuessVector[guessIndex]);
+		possibleGuessVector[guessIndex].setScore(score);
 	}
 
-	/*  OLD CODE -- THIS WILL BE REPLACED BY THE CODE BLOCK ABOVE
-	while (true)
-	{
-		if ( consistentWithPreviousGuesses(possibleGuess) )
-		{
-			score = calculateScore(possibleGuess);
-			possibleGuess.setScore(score);
-			possibleGuessVector.push_back(possibleGuess);
-		}
-
-		if (possibleGuess.getCode() == zeroVector) break;
-	}
-	*/
 	int minIndex = 0;
 	int minScore = pow(MAXNUMBER, LENGTH);
 	for (int index = 0; index < possibleGuessVector.size(); index++)
@@ -151,25 +139,19 @@ Code Mastermind::agentGuess()
 	return possibleGuessVector[minIndex];
 }
 
-int Mastermind::calculateScore(Code guess) const
+int Mastermind::calculateScore(Code &guess)
 {
 	int score = 0;
-	Response theoreticalResponse;
-	Code nextGuess;
-	vector<int> zeroVector(LENGTH);
-	nextGuess.setCode(zeroVector);
 
-	//Loop through all possbile responses
 	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
 	{
-		while (true)
+		cout << responseIndex << endl;
+		for (int guessIndex = 0; guessIndex < possibleGuessVector.size(); guessIndex++)
 		{
-			if (consistentWithPreviousGuesses(nextGuess))
+			if (consistentWithPreviousGuesses(possibleGuessVector[guessIndex]))
 			{
 				score++;
 			}
-			nextGuess.increment();
-			if (nextGuess.getCode() == zeroVector) break;
 		}
 	}
 
@@ -177,7 +159,7 @@ int Mastermind::calculateScore(Code guess) const
 }
 
 //Generates a response between two guesses
-Response Mastermind::generateResponse(Code guessCode, Code secretCode) const
+Response Mastermind::generateResponse(Code &guessCode, Code &secretCode) const
 {
 	Response response;
 	vector<int> userVector = guessCode.getCode();
@@ -194,7 +176,7 @@ bool Mastermind::checkSolve(Response response) const
 }
 
 //Returns true if guess response is consistent with previous responses
-bool Mastermind::consistentWithPreviousGuesses(Code currentGuess) const
+bool Mastermind::consistentWithPreviousGuesses(Code &currentGuess) const
 {
 	Response theoreticalResponse, pastResponse;
 	Code pastGuess;
@@ -245,11 +227,15 @@ void Mastermind::playGame2()
 		Container container(guessCode, response);
 		history.push_back(container);
 		
+		cout << guessCode << endl;
+		cout << response << endl;
+
 		//Check for winning condition
 		if (checkSolve(response))
 		{
 			cout << "correct" << endl;
 			cout << "solved in " << history.size() << " turns" << endl;
+			break;
 		}
 	}
 }
