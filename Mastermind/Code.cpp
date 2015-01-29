@@ -24,7 +24,7 @@ Code::~Code()
 }
 
 //Sets the code
-void Code::setCode(vector<int> newCode)
+void Code::setCode(vector<int> &newCode)
 {
 	if (newCode.size() == LENGTH) code = newCode;
 	else throw rangeError("vector must be of length " + to_string(LENGTH));
@@ -37,7 +37,7 @@ vector<int> Code::getCode() const
 }
 
 //Sets the used code vector
-void Code::setUsedCode(vector<bool> newCode)
+void Code::setUsedCode(vector<bool> &newCode)
 {
 	if (newCode.size() == LENGTH) usedCode = newCode;
 	else throw rangeError( "vector must be of length " + to_string(LENGTH) );
@@ -89,7 +89,7 @@ int Code::checkCorrect(const vector<int> &guess)
 }
 
 //Counts the number of corrects digits in the incorrect location
-int Code::checkIncorrect(vector<int> guess)
+int Code::checkIncorrect(const vector<int> &guess)
 {
 	int numberIncorrect = 0;
 	vector<bool> usedGuess;

@@ -46,7 +46,7 @@ int Response::getNumIncorrect() const
 }
 
 //Check if number correct is equal to number incorrect
-bool Response::isEqual(Response externalResponse) const
+bool Response::isEqual(const Response &externalResponse) const
 {
 	return (externalResponse.getNumCorrect() == numCorrect
 		&& externalResponse.getNumIncorrect() == numIncorrect);

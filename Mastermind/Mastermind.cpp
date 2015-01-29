@@ -182,7 +182,7 @@ bool Mastermind::consistentWithPreviousGuesses(Code &currentGuess) const
 	Code pastGuess;
 	
 	if (history.size() == 0) return true;
-
+	
 	for (int round = 0; round < history.size(); round++)
 	{
 		pastGuess = history[round].getGuessCode();

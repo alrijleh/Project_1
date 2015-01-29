@@ -26,17 +26,16 @@ public:
 	Code();
 	~Code();
 
-	void setCode(vector<int> newCode);
+	void setCode(vector<int> &newCode);
 	vector<int> getCode() const;
-	void setUsedCode(vector<bool> newCode);
+	void setUsedCode(vector<bool> &newCode);
 	vector<bool> getUsedCode() const;
 	void setScore(int newScore);
 	int getScore() const;
 
-
 	void generateCode();
 	int checkCorrect(const vector<int> &guess);
-	int checkIncorrect(vector<int> guess);
+	int checkIncorrect(const vector<int> &guess);
 	void printCode() const;
 	void increment();
 	bool isZero() const;
