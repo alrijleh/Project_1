@@ -12,6 +12,7 @@ Fouad Al-Rijleh, Rachel Rudolph
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 
 using namespace std;
 
@@ -22,6 +23,8 @@ private:
 	Code secretCode;
 	Response response;
 	vector<Container> history;
+	vector<Code> possibleGuessVector;
+	vector<Response> allResponses;
 public:
 	Mastermind();
 	~Mastermind();
@@ -36,6 +39,7 @@ public:
 	Code humanGuess();
 	Code agentGuess();
 	
+	int calculateScore(Code guess) const;
 	bool consistentWithPreviousGuesses(Code currentGuess) const;
 	bool checkSolve(Response response) const;
 	void playGame();
