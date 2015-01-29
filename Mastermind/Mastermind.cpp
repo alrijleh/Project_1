@@ -27,16 +27,6 @@ Mastermind::Mastermind()
 			allResponses.push_back(possibleResponse);
 		}
 	}
-
-	//Generate vector of all possible guesses
-	possibleGuessVector.reserve(pow(MAXNUMBER, LENGTH)); //Reserves a vector big enough fror every combination
-	Code possibleGuess;
-	while (true)
-	{
-		possibleGuessVector.push_back(possibleGuess);
-		possibleGuess.increment();
-		if (possibleGuess.isZero()) break;
-	}
 }
 
 //Default destructor
@@ -117,41 +107,57 @@ Code Mastermind::agentGuess()
 		return guessCode;
 	}
 
-	int score, guessIndex = 0;
+	int score = 0, lowestScore = 0;
+	Code possibleGuess, lowestScoreGuess;
 
-	while ( guessIndex < possibleGuessVector.size() )
+	while (true)
 	{
-		//Removes inconsistent guesses from the pool of possible guesses
-		if ( !consistentWithPreviousGuesses( possibleGuessVector[guessIndex] ) )
-			possibleGuessVector.erase( possibleGuessVector.begin() + guessIndex );
-		score = calculateScore(possibleGuessVector[guessIndex]);
-		possibleGuessVector[guessIndex].setScore(score);
-		guessIndex++;
+		//calculate score if consistent 
+		if (consistentWithPreviousGuesses(possibleGuess))
+		{
+			score = calculateScore(possibleGuess);
+			//if lowest score, save guess
+			if (score < lowestScore && lowestScore != 0 && score != 0)
+			{
+				lowestScore = score;
+				lowestScoreGuess.setCode(possibleGuess.getCode());
+			}
+		}
+
+		//if lowest score, save guess
+		if (score < lowestScore && lowestScore != 0 && score != 0)
+		{
+			lowestScore = score;
+			lowestScoreGuess.setCode(possibleGuess.getCode());
+		}
+
+		//Increment through all possible codes
+		possibleGuess.increment();
+		if ( possibleGuess.isZero() ) break;
 	}
 
-	int minIndex = 0;
-	int minScore = pow(MAXNUMBER, LENGTH);
-	for (int index = 0; index < possibleGuessVector.size(); index++)
-	{
-		score = possibleGuessVector[index].getScore();
-		if (score < minScore) minIndex = index;
-	}
-	
-	return possibleGuessVector[minIndex];
+	return lowestScoreGuess;
 }
 
 int Mastermind::calculateScore(Code &guess)
 {
+	Code possibleNextGuess;
 	int score = 0;
+
 	cout << "calculateScore()" << endl;
+
 	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
 	{
-		for (int guessIndex = 0; guessIndex < possibleGuessVector.size(); guessIndex++)
+		while (true)
 		{
-			if (consistentWithPreviousGuesses(possibleGuessVector[guessIndex]))
+			if (consistentWithPreviousGuesses(possibleNextGuess))
 			{
 				score++;
 			}
+
+			//Loop through all possible guesses
+			possibleNextGuess.increment();
+			if (possibleNextGuess.isZero()) break;
 		}
 	}
 

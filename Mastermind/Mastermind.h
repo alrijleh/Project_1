@@ -23,7 +23,6 @@ private:
 	Code secretCode;
 	Response response;
 	vector<Container> history;
-	vector<Code> possibleGuessVector;
 	vector<Response> allResponses;
 public:
 	Mastermind();
