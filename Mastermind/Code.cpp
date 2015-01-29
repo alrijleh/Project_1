@@ -147,6 +147,15 @@ void Code::increment()
 	}
 }
 
+bool Code::isZero() const
+{
+	for (int index = 0; index < code.size(); index++)
+	{
+		if (code[index] != 0) return false;
+	}
+	return true;
+}
+
 //Overload output operator for Code
 ostream &operator<<(ostream &ostream, const Code &code)
 {

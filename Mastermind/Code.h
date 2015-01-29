@@ -39,6 +39,7 @@ public:
 	int checkIncorrect(vector<int> guess);
 	void printCode() const;
 	void increment();
+	bool isZero() const;
 
 	friend ostream &operator<<(ostream &ostream, const Code &code);
 	friend void operator++(Code code);

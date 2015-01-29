@@ -18,7 +18,6 @@ Mastermind::Mastermind()
 	//Generate vector of possible responses
 	Response possibleResponse;
 	allResponses.reserve(LENGTH*(LENGTH + 1) / 2); //Total possibilities is the LENGTH triangular number
-
 	for (int numCorrect = 0; numCorrect <= LENGTH; numCorrect++)
 	{
 		for (int numIncorrect = 0; numIncorrect <= (LENGTH - numCorrect); numIncorrect++)
@@ -27,6 +26,16 @@ Mastermind::Mastermind()
 			possibleResponse.setNumIncorrect(numIncorrect);
 			allResponses.push_back(possibleResponse);
 		}
+	}
+
+	//Generate vector of all possible guesses
+	possibleGuessVector.reserve(pow(MAXNUMBER, LENGTH)); //Reserves a vector big enough fror every combination
+	Code possibleGuess;
+	while (true)
+	{
+		possibleGuessVector.push_back(possibleGuess);
+		possibleGuess.increment();
+		if (possibleGuess.isZero()) break;
 	}
 }
 
@@ -109,13 +118,17 @@ Code Mastermind::agentGuess()
 	}
 
 	int score;
-	vector<int> zeroVector(LENGTH);
-	vector<Code> possibleGuessVector;
-	Code possibleGuess;
-	possibleGuessVector.reserve( pow(MAXNUMBER,LENGTH) ); //Reserves a vector big enough fror every combination
-	possibleGuess.setCode(zeroVector);
 
 	//Calculates scores for all possibe guesses
+	for (int guessIndex = 0; guessIndex < possibleGuessVector.size(); guessIndex++)
+	{
+		if ( !consistentWithPreviousGuesses( possibleGuessVector[guessIndex] ) )
+		{
+
+		}
+	}
+
+	/*  OLD CODE -- THIS WILL BE REPLACED BY THE CODE BLOCK ABOVE
 	while (true)
 	{
 		if ( consistentWithPreviousGuesses(possibleGuess) )
@@ -125,10 +138,9 @@ Code Mastermind::agentGuess()
 			possibleGuessVector.push_back(possibleGuess);
 		}
 
-		possibleGuess.increment();
 		if (possibleGuess.getCode() == zeroVector) break;
 	}
-
+	*/
 	int minIndex = 0;
 	int minScore = pow(MAXNUMBER, LENGTH);
 	for (int index = 0; index < possibleGuessVector.size(); index++)
