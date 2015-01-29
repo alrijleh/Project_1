@@ -118,15 +118,14 @@ Code Mastermind::agentGuess()
 	//Calculates scores for all possibe guesses
 	while (true)
 	{
-		//if (consistentWithPreviousGuesses(possibleGuess))
-		if (true);
+		if ( consistentWithPreviousGuesses(possibleGuess) )
 		{
 			score = calculateScore(possibleGuess);
 			possibleGuess.setScore(score);
 			possibleGuessVector.push_back(possibleGuess);
 		}
 
-		possibleGuess++;
+		possibleGuess.increment();
 		if (possibleGuess.getCode() == zeroVector) break;
 	}
 
@@ -158,7 +157,7 @@ int Mastermind::calculateScore(Code guess) const
 			{
 				score++;
 			}
-			nextGuess++;
+			nextGuess.increment();
 			if (nextGuess.getCode() == zeroVector) break;
 		}
 	}
@@ -229,10 +228,18 @@ void Mastermind::playGame2()
 
 	while (true)
 	{
+
 		guessCode = agentGuess();
 		response = generateResponse(guessCode, secretCode);
 		Container container(guessCode, response);
 		history.push_back(container);
+		
+		//Check for winning condition
+		if (checkSolve(response))
+		{
+			cout << "correct" << endl;
+			cout << "solved in " << history.size() << " turns" << endl;
+		}
 	}
 }
 
