@@ -119,13 +119,12 @@ Code Mastermind::agentGuess()
 
 	int score;
 
-	//Calculates scores for all possibe guesses
 	for (int guessIndex = 0; guessIndex < possibleGuessVector.size(); guessIndex++)
 	{
+		//Removes inconsistent guesses from the pool of possible guesses
 		if ( !consistentWithPreviousGuesses( possibleGuessVector[guessIndex] ) )
-		{
-
-		}
+			possibleGuessVector.erase( possibleGuessVector.begin() + guessIndex );
+		
 	}
 
 	/*  OLD CODE -- THIS WILL BE REPLACED BY THE CODE BLOCK ABOVE
