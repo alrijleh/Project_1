@@ -117,15 +117,16 @@ Code Mastermind::agentGuess()
 		return guessCode;
 	}
 
-	int score;
+	int score, guessIndex = 0;
 
-	for (int guessIndex = 0; guessIndex < possibleGuessVector.size(); guessIndex++)
+	while ( guessIndex < possibleGuessVector.size() )
 	{
 		//Removes inconsistent guesses from the pool of possible guesses
 		if ( !consistentWithPreviousGuesses( possibleGuessVector[guessIndex] ) )
 			possibleGuessVector.erase( possibleGuessVector.begin() + guessIndex );
 		score = calculateScore(possibleGuessVector[guessIndex]);
 		possibleGuessVector[guessIndex].setScore(score);
+		guessIndex++;
 	}
 
 	int minIndex = 0;
@@ -142,10 +143,9 @@ Code Mastermind::agentGuess()
 int Mastermind::calculateScore(Code &guess)
 {
 	int score = 0;
-
+	cout << "calculateScore()" << endl;
 	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
 	{
-		cout << responseIndex << endl;
 		for (int guessIndex = 0; guessIndex < possibleGuessVector.size(); guessIndex++)
 		{
 			if (consistentWithPreviousGuesses(possibleGuessVector[guessIndex]))
