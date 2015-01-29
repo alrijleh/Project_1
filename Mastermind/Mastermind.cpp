@@ -27,6 +27,16 @@ Mastermind::Mastermind()
 			allResponses.push_back(possibleResponse);
 		}
 	}
+
+	//Generate vector of all possible guesses
+	possibleGuessVector.reserve(pow(MAXNUMBER, LENGTH)); //Reserves a vector big enough fror every combination
+	Code possibleGuess;
+	while (true)
+	{
+		possibleGuessVector.push_back(possibleGuess);
+		possibleGuess.increment();
+		if (possibleGuess.isZero()) break;
+	}
 }
 
 //Default destructor
@@ -103,61 +113,67 @@ Code Mastermind::agentGuess()
 {
 	if (history.size() == 0) //No history to base guess off of
 	{
-		guessCode.generateCode();
+		guessCode.isZero();
 		return guessCode;
 	}
 
-	int score = 0, lowestScore = 0;
-	Code possibleGuess, lowestScoreGuess;
+	int score;
 
-	while (true)
+	for (int guessIndex = 0; guessIndex < possibleGuessVector.size(); guessIndex++)
 	{
-		//calculate score if consistent 
-		if (consistentWithPreviousGuesses(possibleGuess))
-		{
-			score = calculateScore(possibleGuess);
-			//if lowest score, save guess
-			if (score < lowestScore && lowestScore != 0 && score != 0)
-			{
-				lowestScore = score;
-				lowestScoreGuess.setCode(possibleGuess.getCode());
-			}
-		}
-
-		//if lowest score, save guess
-		if (score < lowestScore && lowestScore != 0 && score != 0)
-		{
-			lowestScore = score;
-			lowestScoreGuess.setCode(possibleGuess.getCode());
-		}
-
-		//Increment through all possible codes
-		possibleGuess.increment();
-		if ( possibleGuess.isZero() ) break;
+		//Removes inconsistent guesses from the pool of possible guesses
+		if ( !consistentWithPreviousGuesses( possibleGuessVector[guessIndex] ) )
+			possibleGuessVector.erase( possibleGuessVector.begin() + guessIndex );
+		
 	}
 
-	return lowestScoreGuess;
+	/*  OLD CODE -- THIS WILL BE REPLACED BY THE CODE BLOCK ABOVE
+	while (true)
+	{
+		if ( consistentWithPreviousGuesses(possibleGuess) )
+		{
+			score = calculateScore(possibleGuess);
+			possibleGuess.setScore(score);
+			possibleGuessVector.push_back(possibleGuess);
+		}
+
+		if (possibleGuess.getCode() == zeroVector) break;
+	}
+	*/
+	int minIndex = 0;
+	int minScore = guessCode.getScore();
+	for (int index = 0; index < possibleGuessVector.size(); index++)
+	{
+		score = possibleGuessVector[index].getScore();
+		if (score < minScore)
+		{
+			minIndex = index;
+			score++;
+		}
+	}
+	
+	return possibleGuessVector[minIndex];
 }
 
-int Mastermind::calculateScore(Code &guess)
+int Mastermind::calculateScore(Code guess) const
 {
-	Code possibleNextGuess;
 	int score = 0;
+	Response theoreticalResponse;
+	Code nextGuess;
+	vector<int> zeroVector(LENGTH);
+	nextGuess.setCode(zeroVector);
 
-	cout << "calculateScore()" << endl;
-
+	//Loop through all possbile responses
 	for (int responseIndex = 0; responseIndex < allResponses.size(); responseIndex++)
 	{
 		while (true)
 		{
-			if (consistentWithPreviousGuesses(possibleNextGuess))
+			if (consistentWithPreviousGuesses(nextGuess))
 			{
 				score++;
 			}
-
-			//Loop through all possible guesses
-			possibleNextGuess.increment();
-			if (possibleNextGuess.isZero()) break;
+			nextGuess++;
+			if (nextGuess.getCode() == zeroVector) break;
 		}
 	}
 
@@ -165,7 +181,7 @@ int Mastermind::calculateScore(Code &guess)
 }
 
 //Generates a response between two guesses
-Response Mastermind::generateResponse(Code &guessCode, Code &secretCode) const
+Response Mastermind::generateResponse(Code guessCode, Code secretCode) const
 {
 	Response response;
 	vector<int> userVector = guessCode.getCode();
@@ -182,13 +198,13 @@ bool Mastermind::checkSolve(Response response) const
 }
 
 //Returns true if guess response is consistent with previous responses
-bool Mastermind::consistentWithPreviousGuesses(Code &currentGuess) const
+bool Mastermind::consistentWithPreviousGuesses(Code currentGuess) const
 {
 	Response theoreticalResponse, pastResponse;
 	Code pastGuess;
 	
 	if (history.size() == 0) return true;
-	
+
 	for (int round = 0; round < history.size(); round++)
 	{
 		pastGuess = history[round].getGuessCode();
@@ -227,20 +243,21 @@ void Mastermind::playGame2()
 
 	while (true)
 	{
-
 		guessCode = agentGuess();
 		response = generateResponse(guessCode, secretCode);
 		Container container(guessCode, response);
 		history.push_back(container);
 		
-		cout << guessCode << endl;
-		cout << response << endl;
+		cout << "Guess: ";
+		guessCode.printCode();
+		//cout << "Response: "; 
+		response.printResponse();
 
 		//Check for winning condition
 		if (checkSolve(response))
 		{
-			cout << "correct" << endl;
-			cout << "solved in " << history.size() << " turns" << endl;
+			cout << "Guess is correct!" << endl;
+			cout << "Solved secret code in " << history.size() << " turns." << endl;
 			break;
 		}
 	}
